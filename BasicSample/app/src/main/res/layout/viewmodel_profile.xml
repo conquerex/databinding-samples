@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="22dp"
             android:onClick="@{() -> viewmodel.onReset()}"
-            android:text="@string/like"
+            android:text="@string/reset"
             app:layout_constraintTop_toTopOf="@id/like_button"
             app:layout_constraintRight_toLeftOf="@id/like_button"/>
 

@@ -76,6 +76,13 @@ class ProfileObservableViewModel : ObservableViewModel() {
     val lastName = ObservableField("Lovelace")
     val likes = ObservableInt(0)
 
+    /*
+    p224, Observable 객체 사용하기
+    BaseObservable을 구현한 데이터 클래스는 프로퍼티 변경 시 알림을 책임진다.
+    (이 경우에는 ObservableViewModel을 구현한 ViewModel)
+    이는 @Bindable 애노테이션을 getter 메서드에 적용하고 ---> fun getPopularity()
+    notifyPropertyChanged() 메서드를 setter 메서드 내에서 호출하는 것으로 적용된다. ---> fun onLike()
+     */
     fun onLike() {
         likes.increment()
         // You control when the @Bindable properties are updated using `notifyPropertyChanged()`.

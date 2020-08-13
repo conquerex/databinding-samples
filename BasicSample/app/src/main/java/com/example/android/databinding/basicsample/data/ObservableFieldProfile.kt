@@ -27,5 +27,8 @@ data class ObservableFieldProfile(
         val lastName: String,
         // p208
         // Observable을 접두어로 갖는 타입은 컴파일 타임에 따로 계산되어 반영
+        // p222
+        // Observable 객체를 사용할 때는 바인딩된 Observable 객체의 변경을 막고자
+        // 멤버 변수 선언시 자바에서는 public final 프로퍼티를, 코틀린에서는 read-only 프로퍼티를.
         val likes: ObservableInt
 )

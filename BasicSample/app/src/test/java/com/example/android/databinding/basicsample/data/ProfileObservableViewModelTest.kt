@@ -42,6 +42,8 @@ class ProfileObservableViewModelTest {
 
     private fun callOnLikeTimes(times: Int) {
         (0 until times).forEach {
+            // p224
+            // 프로퍼티 변경 ---> getPopularity으로 알림
             viewmodel.onLike()
         }
     }

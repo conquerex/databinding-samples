@@ -41,6 +41,12 @@ object ConverterUtil {
  * There is no need to specify that this converter should be used. [BindingConversion]s are
  * applied automatically.
  */
+/*
+    isZero 메서드는 boolean 타입으로 반환되는데 이를 android:visibility에서 사용하려명
+    사용자 정의 객체 전환이 필요하다
+    (p234)
+    이러한 변환은 @BindingConversion과 정적 메서드의 사용으로 이루어 진다.
+ */
 object BindingConverters{
 
     @BindingConversion

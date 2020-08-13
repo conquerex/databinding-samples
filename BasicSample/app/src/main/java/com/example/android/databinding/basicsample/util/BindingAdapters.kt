@@ -29,11 +29,22 @@ import android.widget.ProgressBar
 import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.data.Popularity
 
-
+/*
+    <object 키워드>
+    1. 싱글턴을 정의하는 방법
+    2. 동반객체 companion object를 이용한 팩토리 메서드 구현
+    3. 무명클래스(익명 클래스)의 선언
+ */
 object BindingAdapters {
     /**
      * A Binding Adapter that is called whenever the value of the attribute `app:popularityIcon`
      * changes. Receives a popularity level that determines the icon and tint color to use.
+     */
+    /*
+        p230
+        첫번째 매개변수 : 사용한 속성이 연관되는 뷰의 자료형
+        두번째 매개벼수 : 주어진 속성의 바인딩 표현식에서 반환되는 타입의 자료형
+          --> viewmodel_profile.xml
      */
     @BindingAdapter("app:popularityIcon")
     @JvmStatic fun popularityIcon(view: ImageView, popularity: Popularity) {

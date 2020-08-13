@@ -41,3 +41,13 @@ import android.widget.ImageView
                 attribute = "app:srcCompat",
                 method = "setImageResource"))
 class MyBindingMethods
+
+/*
+p228
+@BindingMethods 애노테이션을 사용하여 속성과 세터 메서드를 연결할 수 있다.
+  ---> observable_field_profile.xml
+데이터 바인딩 라이브러리에서는 자주 사용되는 속성에 대해서
+이미 @BindingMethods 애노테이션을 정의한 클래스를 제공한다.
+(예 :ImageViewBindingAdapter)
+필요한 경우에만 사용하면 된다.
+ */
