@@ -17,6 +17,7 @@
 package com.example.android.databinding.twowaysample.data
 
 
+import android.util.Log
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableInt
 import com.example.android.databinding.twowaysample.BR
@@ -62,6 +63,8 @@ const val INITIAL_NUMBER_OF_SETS = 5
  */
 class IntervalTimerViewModel(private val timer: Timer) : ObservableViewModel() {
 
+    val TAG = IntervalTimerViewModel::class.java.simpleName
+
     /* Observable fields. When their values change (set method is called) they send updates to
     the UI automatically. */
     val timePerWorkSet = ObservableInt(INITIAL_SECONDS_PER_WORK_SET * 10) // tenths
@@ -78,6 +81,16 @@ class IntervalTimerViewModel(private val timer: Timer) : ObservableViewModel() {
      * with the getter and notifies the observers.
      *
      * User actions come through the setter, using two-way data binding.
+     *
+     *
+     * (번역)
+     * 타이머가 실행 중임을 UI에 알리고 시작 / 일시 중지 명령을 수신하는 데 사용됩니다.
+     *
+     * @Bindable 속성은 관찰 가능한 필드를 만드는 더 유연한 방법입니다.
+     * 양방향 데이터 바인딩과 함께 사용하십시오. ViewModel에서 속성이 변경되면
+     * `notifyPropertyChanged (BR.timerRunning)`를 호출해야 시스템이 getter로 새 값을 가져와 옵저버에게 알립니다.
+     *
+     * 사용자 작업은 양방향 데이터 바인딩을 사용하여 setter를 통해 이루어집니다.
      */
     var timerRunning: Boolean
         @Bindable get() {
@@ -99,22 +112,30 @@ class IntervalTimerViewModel(private val timer: Timer) : ObservableViewModel() {
 
     private var numberOfSetsTotal = INITIAL_NUMBER_OF_SETS
     private var numberOfSetsElapsed = 0
+    /*
+        (p239, 양방향 데이터 바인딩)
+        데이터들의 변화에 반응하도록 Observable을 구현한 레이아웃 변수를 사용한다.
+        보통은 BaseObservable을 상속 (이 경우에는 ObservableViewModel)
+        멤버 getter 메서드에서 @Bindable 애노테이션을 사용한다.
+     */
     var numberOfSets: Array<Int> = emptyArray()
         @Bindable get() {
+            Log.d(TAG, "* * * numberOfSets get")
             return arrayOf(numberOfSetsElapsed, numberOfSetsTotal)
         }
-    set(value: Array<Int>) {
-        // Only the second Int is being set
-        val newTotal = value[1]
-        if (newTotal == numberOfSets[1]) return // Break loop if there's no change
-        // Only update if it doesn't affect the current exercise
-        if (newTotal != 0 && newTotal > numberOfSetsElapsed) {
-            field = value
-            numberOfSetsTotal = newTotal
+        set(value: Array<Int>) {
+            Log.d(TAG, "* * * numberOfSets set")
+            // Only the second Int is being set
+            val newTotal = value[1]
+            if (newTotal == numberOfSets[1]) return // Break loop if there's no change
+            // Only update if it doesn't affect the current exercise
+            if (newTotal != 0 && newTotal > numberOfSetsElapsed) {
+                field = value
+                numberOfSetsTotal = newTotal
+            }
+            // Even if the input is empty, force a refresh of the view
+            notifyPropertyChanged(BR.numberOfSets)
         }
-        // Even if the input is empty, force a refresh of the view
-        notifyPropertyChanged(BR.numberOfSets)
-    }
 
     /**
      * Used to control some animations.
@@ -169,7 +190,8 @@ class IntervalTimerViewModel(private val timer: Timer) : ObservableViewModel() {
 
     fun workTimeDecrease() = timePerSetIncrease(timePerWorkSet, -1, 10)
 
-    fun setsDecrease() { if (numberOfSetsTotal > numberOfSetsElapsed + 1) {
+    fun setsDecrease() {
+        if (numberOfSetsTotal > numberOfSetsElapsed + 1) {
             numberOfSetsTotal -= 1
             notifyPropertyChanged(BR.numberOfSets)
         }
@@ -228,14 +250,14 @@ class IntervalTimerViewModel(private val timer: Timer) : ObservableViewModel() {
     private fun roundTimeIncrease(timePerSet: ObservableInt, sign: Int, min: Int) {
         val currentValue = timePerSet.get()
         val newValue =
-        when {
-        // <10 Seconds - increase 1
-            currentValue < 100 -> timePerSet.get() + sign * 10
-        // >10 seconds, 5-second increase
-            currentValue < 600 -> (round(currentValue / 50.0) * 50 + (50 * sign)).toInt()
-        // >60 seconds, 10-second increase
-            else -> (round(currentValue / 100.0) * 100 + (100 * sign)).toInt()
-        }
+                when {
+                    // <10 Seconds - increase 1
+                    currentValue < 100 -> timePerSet.get() + sign * 10
+                    // >10 seconds, 5-second increase
+                    currentValue < 600 -> (round(currentValue / 50.0) * 50 + (50 * sign)).toInt()
+                    // >60 seconds, 10-second increase
+                    else -> (round(currentValue / 100.0) * 100 + (100 * sign)).toInt()
+                }
         timePerSet.set(newValue.coerceAtLeast(min))
     }
 
@@ -393,9 +415,9 @@ private operator fun ObservableInt.plusAssign(value: Int) {
 }
 
 private operator fun ObservableInt.minusAssign(amount: Int) {
-    plusAssign(- amount)
+    plusAssign(-amount)
 }
 
-enum class TimerStates {STOPPED, STARTED, PAUSED}
+enum class TimerStates { STOPPED, STARTED, PAUSED }
 
-enum class StartedStages {WORKING, RESTING}
+enum class StartedStages { WORKING, RESTING }
