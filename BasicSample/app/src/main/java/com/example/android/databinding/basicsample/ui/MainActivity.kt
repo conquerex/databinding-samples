@@ -25,6 +25,9 @@ import com.example.android.databinding.basicsample.databinding.ActivityMainBindi
 
 /**
  * Shows a menu.
+ *
+ * 책 "아키텍처를 알아야 앱 개발이 보인다"
+ * chapter.04 내용 학습을 위한 주석을 추가한다.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         // The layout for this activity is a Data Binding layout so it needs to be inflated using
         // DataBindingUtil.
+        // 바인딩 객체 생성 - 액티비티의 setContentView를 대하는 구문
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(
                 this, R.layout.activity_main)
 

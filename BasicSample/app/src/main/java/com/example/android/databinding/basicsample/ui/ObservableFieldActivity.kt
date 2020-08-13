@@ -38,6 +38,8 @@ class ObservableFieldActivity : AppCompatActivity() {
 
         val binding: ObservableFieldProfileBinding =
                 DataBindingUtil.setContentView(this, R.layout.observable_field_profile)
+
+        // 레이아웃에 선언된 변수에 값을 대입
         binding.user = observableFieldProfile
     }
 

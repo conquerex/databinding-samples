@@ -34,7 +34,7 @@ import com.example.android.databinding.basicsample.util.ObservableViewModel
 class ProfileLiveDataViewModel : ViewModel() {
     private val _name = MutableLiveData("Ada")
     private val _lastName = MutableLiveData("Lovelace")
-    private val _likes =  MutableLiveData(0)
+    private val _likes = MutableLiveData(0)
 
     val name: LiveData<String> = _name
     val lastName: LiveData<String> = _lastName
@@ -49,8 +49,19 @@ class ProfileLiveDataViewModel : ViewModel() {
         }
     }
 
+    /*
+    p218, 리스너 바인딩
+     이벤트가 발생할 때 실행하는 바인딩 표현식
+     리스너 바인딩은 두 가지 옵션을 제공
+     하나는 모든 매개 변수를 무시, 사용하지 않는 것
+     하나는 매개 변수의 이름을 정하고 바인딩 표현식에서 그것들을 사용하는 것
+     */
     fun onLike() {
         _likes.value = (_likes.value ?: 0) + 1
+    }
+
+    fun onReset() {
+        _likes.value = 0
     }
 }
 
@@ -63,7 +74,7 @@ class ProfileLiveDataViewModel : ViewModel() {
 class ProfileObservableViewModel : ObservableViewModel() {
     val name = ObservableField("Ada")
     val lastName = ObservableField("Lovelace")
-    val likes =  ObservableInt(0)
+    val likes = ObservableInt(0)
 
     fun onLike() {
         likes.increment()

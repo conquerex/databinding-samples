@@ -25,5 +25,7 @@ import androidx.databinding.ObservableInt
 data class ObservableFieldProfile(
         val name: String,
         val lastName: String,
+        // p208
+        // Observable을 접두어로 갖는 타입은 컴파일 타임에 따로 계산되어 반영
         val likes: ObservableInt
 )
